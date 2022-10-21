@@ -6,6 +6,10 @@ import {
   Filter,
 } from 'components';
 import { Component } from 'react';
+import LocalStorage from 'service/localStorage';
+import { Notify } from 'notiflix/build/notiflix-notify-aio';
+
+const LS_KEY = 'contacts';
 
 export class App extends Component {
   state = {
@@ -20,6 +24,21 @@ export class App extends Component {
     isOpenFilter: false,
   };
 
+  componentDidMount() {
+    const savedData = LocalStorage.get(LS_KEY);
+
+    if (savedData) {
+      this.setState({ contacts: savedData });
+    }
+  }
+
+  componentDidUpdate(_, prevState) {
+    const currentContacts = this.state.contacts;
+
+    if (prevState.contacts !== currentContacts) {
+      LocalStorage.set(LS_KEY, currentContacts);
+    }
+  }
   onSearch = evt => {
     const value = evt.target.value;
     this.setState({ filter: value });
@@ -30,6 +49,8 @@ export class App extends Component {
       contacts: [...prevState.contacts, data],
     }));
     this.toggle('isOpenForm');
+
+    Notify.success(`${data.name} was successfully added to contacts`);
   };
 
   deleteContact = id => {
@@ -38,6 +59,8 @@ export class App extends Component {
         contacts: prevState.contacts.filter(contact => contact.id !== id),
       };
     });
+
+    Notify.success(`Contact successfully removed`);
   };
 
   toggle = component => {

@@ -18,7 +18,7 @@ const phoneRegExp =
   /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/;
 
 const schema = yup.object().shape({
-  name: yup.string().min(3).matches(nameRegExp, 'Name is not valid').required(),
+  name: yup.string().min(3,'Name is to short').max(30, 'Name is to long').matches(nameRegExp, 'Name is not valid').required(),
   number: yup
     .string()
     .matches(phoneRegExp, 'Phone number is not valid')
