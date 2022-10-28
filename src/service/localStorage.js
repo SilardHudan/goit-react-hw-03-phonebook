@@ -1,12 +1,12 @@
 export default class LocalStorage {
-  static get(key) {
+  static get(key, initialValue = []) {
     try {
       const savedData = localStorage.getItem(key);
       const parseData = JSON.parse(savedData);
 
-      return parseData;
+      return parseData ?? initialValue;
     } catch (error) {
-      console.log(error);
+      return initialValue;
     }
   }
 

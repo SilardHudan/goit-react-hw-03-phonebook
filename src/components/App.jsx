@@ -11,26 +11,45 @@ import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 const LS_KEY = 'contacts';
 
-export class App extends Component {
-  state = {
-    contacts: [
-      { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
-      { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
-      { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
-      { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
-    ],
-    filter: '',
-    isOpenForm: false,
-    isOpenFilter: false,
-  };
+const someData = [
+  { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+  { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+  { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+  { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+];
+ export class App extends Component {
+   state = {
+     contacts:[],
+     filter: "",
+     isOpenForm: false,
+     isOpenFilter: false,
+   };
 
-  componentDidMount() {
-    const savedData = LocalStorage.get(LS_KEY);
+   componentDidMount() {
+     const contacts = LocalStorage.get(LS_KEY, someData);
+     this.setState({ contacts });
+}
 
-    if (savedData) {
-      this.setState({ contacts: savedData });
-    }
-  }
+// export class App extends Component {
+//   state = {
+//     contacts: [
+//       { id: 'id-1', name: 'Rosie Simpson', number: '459-12-56' },
+//       { id: 'id-2', name: 'Hermione Kline', number: '443-89-12' },
+//       { id: 'id-3', name: 'Eden Clements', number: '645-17-79' },
+//       { id: 'id-4', name: 'Annie Copeland', number: '227-91-26' },
+//     ],
+//     filter: '',
+//     isOpenForm: false,
+//     isOpenFilter: false,
+//   };
+
+//   componentDidMount() {
+//     const savedData = LocalStorage.get(LS_KEY);
+
+//     if (savedData) {
+//       this.setState({ contacts: savedData });
+//     }
+//   }
 
   componentDidUpdate(_, prevState) {
     const currentContacts = this.state.contacts;
